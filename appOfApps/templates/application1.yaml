@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: Application-1
+  namespace: argocd
+spec:
+  project: default
+
+  source:
+    repoURL: https://gitlab.com/nanuchi/argocd-app-config.git
+    targetRevision: {{ .Values.spec.source.targetRevision }}
+    path: dev
+  destination: 
+    server: {{ .Values.spec.destination.server }}
+    namespace: app-1
+
+  syncPolicy:
+    syncOptions:
+    - CreateNamespace=true
+
+    automated:
+      selfHeal: true
+      prune: true
